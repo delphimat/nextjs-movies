@@ -28,7 +28,7 @@ const MOVIE_DATA = [
     }
 ]
 
-export const getMovies = () => {
+export  const  getMovies = () => {
     // Create async
 
     return new Promise((resolve, reject) => {
@@ -37,9 +37,16 @@ export const getMovies = () => {
             //reject('Cannot fetch data !')
         }, 100)
     })
+}
 
+export const getMovieById = (id) => {
 
-
-
-
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            const movieIndex = MOVIE_DATA.findIndex( m =>  m.id === id)
+            const movie = MOVIE_DATA[movieIndex]
+            resolve(movie)
+        }, 100)
+    })
+    
 }
