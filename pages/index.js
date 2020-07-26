@@ -1,15 +1,72 @@
 import React from 'react'
-import Head from 'next/head'
-import NavBar from "../components/navbar";
 import SideMenu from "../components/sideMenu";
 import Carousel from "../components/carousel";
 import MovieList from "../components/movieList";
-import Footer from "../components/footer";
-import {useState, useEffect} from "react"
 
 import {getMovies} from "../actions/index"
 
-class Home extends React.Component {
+
+const Home = (props) => {
+
+    return (
+        <div>
+
+            <div className="home-page">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-3">
+                            <SideMenu
+                                appName={"Movie DB"}
+                            />
+                        </div>
+                        <div className="col-lg-9">
+                            <Carousel/>
+                            <div className="row">
+
+                                <MovieList
+                                    movies={props.movies  || []}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <style jsx>{`
+                .home-page {
+                    padding-top: 80px;
+                }`
+            }
+            </style>
+
+        </div>
+    )
+}
+
+Home.getInitialProps = async () => {
+
+
+    console.log("call getInitialProps ")
+    const movies = await getMovies()
+
+    return {
+        movies
+    }
+}
+
+/*class Home extends React.Component {
+
+   static async getInitialProps() {
+       const movies = await getMovies()
+
+       return {
+           movies : movies
+       }
+    }
+
 
     constructor(props) {
         super(props);
@@ -20,13 +77,14 @@ class Home extends React.Component {
     }
 
     // called only once whem the component is mounted
-    /*async componentDidMount() {
+    /!*async componentDidMount() {
         const movies = await getMovies()
         this.setState({movies})
-    }*/
+    }*!/
 
 
-    componentDidMount() {
+    // is called only on browser
+    /!*componentDidMount() {
         getMovies()
             .then((movies) => {
                 this.setState({movies})
@@ -34,10 +92,10 @@ class Home extends React.Component {
             .catch((error) => {
                 this.setState({errorMessage: error})
             })
-    }
+    }*!/
 
     render() {
-        const {movies, errorMessage} = this.state;
+        const {movies } = this.props;
 
         return (
             <div>
@@ -70,9 +128,6 @@ class Home extends React.Component {
                             <div className="col-lg-9">
                                 <Carousel/>
                                 <div className="row">
-                                    <div className="alert alert-danger" role="alert">
-                                        { errorMessage && errorMessage}
-                                    </div>
 
                                     <MovieList
                                         movies={movies}
@@ -96,6 +151,6 @@ class Home extends React.Component {
             </div>
         )
     }
-}
+}*/
 
 export default Home

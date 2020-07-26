@@ -1,5 +1,6 @@
-
 import { Component, Fragment } from 'react'
+import Link from 'next/link'
+
 
 
 class MovieList extends Component {
@@ -16,15 +17,19 @@ class MovieList extends Component {
     }
 
     renderMovies(movies) {
-        return  movies.map((movie) => (
+
+        return  movies.map((movie) => {
+            return (
                 <div key={movie.id}  className="col-lg-4 col-md-6 mb-4">
                     <div className="card h-100">
-                        <a href="#">
-                            <img className="card-img-top" src={movie.image}
-                                 alt=""/></a>
+                        <Link href={`/movies/${movie.id}`}>
+                            <a ><img className="card-img-top" src={movie.image}  alt=""/></a>
+                        </Link>
                         <div className="card-body">
                             <h4 className="card-title">
-                                <a href="#">{movie.name}</a>
+                                <Link href={`/movies/${movie.id}`}>
+                                    <a>{movie.name}</a>
+                                </Link>
                             </h4>
                             <h5>{movie.releaseYear}</h5>
                             <p className="card-text">
@@ -36,7 +41,7 @@ class MovieList extends Component {
                         </div>
                     </div>
                 </div>
-            )
+            )}
         )}
 
     render() {
