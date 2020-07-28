@@ -36,3 +36,8 @@ export  const  createMovie = (movie) => {
     movie.id = Math.random().toString(36).substr(2,5)
     return axios.post(`${BASE_URL}/api/v1/movies/`, movie).then(res => res.data)
 }
+
+export  const  deleteMovie = (id) => {
+    // Create async
+    return axios.delete(`${BASE_URL}/api/v1/movies/${id}`).then(res => res.data)
+}
