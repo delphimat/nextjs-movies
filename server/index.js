@@ -2,31 +2,45 @@ const next = require('next')
 const express = require('express');
 const bodyParser = require('body-parser')
 
-const moviesData = require('./data.json')
-
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const handle = app.getRequestHandler()
 
+const filePath = './data.json'
+const fs = require('fs')
+const path = require('path')
+const moviesData = require(filePath)
+
 app.prepare().then(() => {
 
     const server = express();
-
     server.use(bodyParser.json())
 
     server.get('/api/v1/movies', (req, res) => {
         return res.json(moviesData)
     })
 
-    server.post('/api/v1/movies', (req, res) => {
-        const movie = req.body
-        console.log(JSON.stringify(movie))
-        return res.json({...movie, createdTime: 'today', author: 'Filip'})
+    server.get('/api/v1/movies/:id', (req, res) => {
+        const { id } = req.params
+        const movie = moviesData.find(m => m.id === id)
+
+        return res.json(movie)
     })
 
-    server.patch('/api/v1/movies/:id', (req, res) => {
-        const { id } = req.params
-        return res.json({message: `Updating post of id: ${id}`})
+    server.post('/api/v1/movies', (req, res) => {
+        const movie = req.body
+        moviesData.push(movie)
+
+        const pathToFile = path.join(__dirname, filePath)
+        const stringifiedData = JSON.stringify(moviesData, null, 2)
+
+        fs.writeFile(pathToFile, stringifiedData, (err) => {
+            if (err) {
+                return res.status(422).send(err)
+            }
+
+            return res.json('Movie has been succesfuly added!')
+        })
     })
 
     server.delete('/api/v1/movies/:id', (req, res) => {
@@ -34,6 +48,15 @@ app.prepare().then(() => {
         return res.json({message: `Deleting post of id: ${id}`})
     })
 
+    // server.get('/faq', (req, res) => {
+    //   res.send(`
+    //     <html>
+    //       <head></head>
+    //       <body><h1>Hello World!</h1>
+    //       </body>
+    //     </html>
+    //   `)
+    // })
 
     // we are handling all of the request comming to our server
     server.get('*', (req, res) => {
