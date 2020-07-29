@@ -28,7 +28,6 @@ const Home = (props) => {
 
     return (
         <div>
-
             <div className="home-page">
                 <div className="container">
                     <div className="row">
