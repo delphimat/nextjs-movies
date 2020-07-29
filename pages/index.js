@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import SideMenu from "../components/sideMenu";
 import Carousel from "../components/carousel";
 import MovieList from "../components/movieList";
+
 
 import {getCategories, getMovies} from "../actions/index"
 
@@ -9,6 +10,11 @@ import {getCategories, getMovies} from "../actions/index"
 const Home = (props) => {
 
     const { images, categories, movies } = props
+    const [ filter, setFilter ] = useState('')
+
+    const changeCategoy = category => {
+        setFilter(category)
+    }
 
     return (
         <div>
@@ -18,12 +24,15 @@ const Home = (props) => {
                     <div className="row">
                         <div className="col-lg-3">
                             <SideMenu
+                                changeCategory={changeCategoy}
+                                activeCategory={filter}
                                 categories={categories}
                                 appName={"Movie DB"}
                             />
                         </div>
                         <div className="col-lg-9">
                             <Carousel images={images} />
+                            <h1>Display {filter} movies </h1>
                             <div className="row">
 
                                 <MovieList
