@@ -1,19 +1,25 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {formatAmpMessages} from "next/dist/build/output";
 
 const MovieCreateForm = (props) => {
-    const [form, setForm] = useState({
+
+    const [ isInitialDataLoaded, setIsInitialDataLoaded ] = useState(false)
+
+    const defaultData = {
         name: '',
         description: '',
         rating: '',
         image: '',
         cover: '',
         longDesc: ''
-    })
+    }
+
+    const FormData = props.initialData ?  {...props.initialData } : defaultData
+
+    const [form, setForm] = useState(FormData)
 
     const handleChange = (event) => {
         const target = event.target
-
         const name = target.name
 
         setForm({
@@ -21,12 +27,10 @@ const MovieCreateForm = (props) => {
             [name] : target.value
         })
 
-
     }
 
     const handleGenreChange = (event) => {
         const options = event.target.options
-
         const optionsLength = options.length
 
         let value = []
