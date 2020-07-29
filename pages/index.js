@@ -16,6 +16,16 @@ const Home = (props) => {
         setFilter(category)
     }
 
+    const filterMovies = movies => {
+        if (filter == 'all') {
+            return movies
+        }
+
+        return movies.filter((m) => {
+            return m.genre && m.genre.includes(filter)
+        })
+    }
+
     return (
         <div>
 
@@ -36,7 +46,7 @@ const Home = (props) => {
                             <div className="row">
 
                                 <MovieList
-                                    movies={movies  || []}
+                                    movies={filterMovies(movies)  || []}
                                 />
                             </div>
                         </div>

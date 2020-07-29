@@ -4,13 +4,13 @@ import Head from "next/head";
 import NavBar from "../components/navbar";
 import Footer from "../components/footer";
 
+import '../styles/index.scss'
+
 class MovieApp extends App {
 
     static async getInitialProps(appContext) {
         const appProps = await App.getInitialProps(appContext)
 
-        console.log("MovieApp : get initial props ")
-        console.log(appProps)
         return { ...appProps }
     }
 
